@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:nano_health_suite/data/snackBarGenerator.dart';
+import 'package:nano_health_suite/providers/auth_provider.dart';
+import 'package:nano_health_suite/screens/tab_menu_screen.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget{
   @override
@@ -168,6 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
       String password = _passwordController.text;
 
       // TODO: Perform login logic here
+       Login(email,password);
 
       // For demonstration purposes, let's just print the credentials
       print("Email: $email");
@@ -186,9 +191,11 @@ class _LoginScreenState extends State<LoginScreen> {
   String? _emailValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter your email';
-    } else if (!value.contains('@')) {
-      return 'Invalid email address';
     }
+    // else
+    //   if (!value.contains('@')) {
+    //   return 'Invalid email address';
+    // }
     return null;
   }
 
@@ -206,5 +213,18 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
   bool _obscureText = true;
+
+  void Login(String email, String password){
+   var authProvider = Provider.of<AuthProvider>(context, listen: false);
+       authProvider.logIn(email, password).then((res) {
+        if(res.statusCode==200){
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext ctx) => TabMenuScreen()));
+        }
+         else if(res.statusCode!=200){
+          SnackbarGenerator(context).snackBarGeneratorToast(res.data);
+        }
+   });
+  }
 
 }
