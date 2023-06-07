@@ -63,6 +63,12 @@ class AuthProvider with ChangeNotifier{
     return null;
 
   }
+  Future<void> logOutUserDetailsLocally() async {
 
+    SharedPreferences prefs = await GetSharedPref().getSharedPref();
+    prefs.setString(Keys.savedLoggedInUserKey, "{}");
+    _login=Login();
+    notifyListeners();
+  }
 
 }

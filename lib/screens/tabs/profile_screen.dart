@@ -1,5 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nano_health_suite/main.dart';
+import 'package:nano_health_suite/screens/login_screen.dart';
+import 'package:nano_health_suite/screens/tab_menu_screen.dart';
+import 'package:nano_health_suite/widgets/restart_widget.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/auth_provider.dart';
+
 
 class ProfileScreen extends StatefulWidget
 {
@@ -36,6 +44,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 textStyle: MaterialStateProperty.all(const TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 15))
             ),
             onPressed: (){
+              var authProvider = Provider.of<AuthProvider>(context, listen: false);
+              authProvider.logOutUserDetailsLocally().then((value) => RestartAppWidget.restartApp(context));
+
+
 
             },
             child: Padding(
@@ -46,5 +58,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+  void restartApp() {
+    runApp(MyApp(showHome: false,));
   }
 }

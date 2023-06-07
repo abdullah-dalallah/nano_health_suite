@@ -5,6 +5,7 @@ import 'package:nano_health_suite/providers/auth_provider.dart';
 import 'package:nano_health_suite/providers/product_provider.dart';
 import 'package:nano_health_suite/screens/login_screen.dart';
 import 'package:nano_health_suite/screens/tab_menu_screen.dart';
+import 'package:nano_health_suite/widgets/restart_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,7 +22,7 @@ Future<void> main() async {
   else{
     showHome =false;
   }
-  runApp( MyApp(showHome: showHome,));
+  runApp( RestartAppWidget(child: MyApp(showHome: showHome,)));
 }
 
 class MyApp extends StatelessWidget {

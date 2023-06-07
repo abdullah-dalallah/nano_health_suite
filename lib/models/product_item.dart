@@ -8,11 +8,11 @@ import 'package:json_annotation/json_annotation.dart';
 part 'all_products.g.dart';
 
 
-List<AllProducts> allProductsResponseFromJson(String str) => List<AllProducts>.from(json.decode(str).map((x) => AllProducts.fromJson(x)));
+List<ProductItem> allProductsResponseFromJson(String str) => List<ProductItem>.from(json.decode(str).map((x) => ProductItem.fromJson(x)));
 
-String allProductsResponseToJson(List<AllProducts> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String allProductsResponseToJson(List<ProductItem> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 @JsonSerializable()
-class AllProducts {
+class ProductItem {
   int? id;
   String? title;
   double? price;
@@ -21,7 +21,7 @@ class AllProducts {
   String? image;
   Rating? rating;
 
-  AllProducts({
+  ProductItem({
     this.id,
     this.title,
     this.price,
@@ -31,7 +31,7 @@ class AllProducts {
     this.rating,
   });
 
-  factory AllProducts.fromJson(Map<String, dynamic> json) => AllProducts(
+  factory ProductItem.fromJson(Map<String, dynamic> json) => ProductItem(
     id: json["id"],
     title: json["title"],
     price: json["price"]?.toDouble(),

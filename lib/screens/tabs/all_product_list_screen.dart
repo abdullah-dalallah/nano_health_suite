@@ -30,7 +30,10 @@ class _AllProductListScreenState extends State<AllProductListScreen> {
              padding: EdgeInsets.only(top: 20),
              itemCount: productProvider.allProducts.length,
              itemBuilder: (context, index){
-               return ProductListItem();
+               return
+                 //Container();
+
+                 ProductListItem(productItem: productProvider.allProducts[index],);
            },
            separatorBuilder:(context, index)=>Padding(
              padding: const EdgeInsets.only(left: 18.0, bottom: 10, top: 18 , right: 18),

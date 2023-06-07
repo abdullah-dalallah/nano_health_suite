@@ -10,7 +10,7 @@ import '../widgets/cached_image_with_placeholder.dart';
 import '../widgets/rating_widget.dart';
 
 class ProductDetailsPage extends StatefulWidget{
-  final String? productId ;
+  final int? productId ;
 
   const ProductDetailsPage({required this.productId,super.key});
 
@@ -22,14 +22,18 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
 
 
-  Widget _page() => Stack(
+  Widget _page(String image) => Stack(
     children: [
 
-       ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child:
-            CachedImageWithPlaceholder("https://w0.peakpx.com/wallpaper/582/539/HD-wallpaper-beautiful-nature-view.jpg",BoxFit.cover)
-        ),
+       Center(
+         child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child:
+              SizedBox(
+                  // height: MediaQuery.of(context).size.height,
+                  child: CachedImageWithPlaceholder(image,BoxFit.cover,))
+          ),
+       ),
 
       Padding(
         padding: const EdgeInsets.only(top: 30.0, left: 15,right: 15),
@@ -110,20 +114,27 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   Widget build(BuildContext context) {
 
      return
-       Scaffold(
+       Consumer<ProductProvider>(
+           builder: (context, productProvider, child)
+     {
+
+       bool isLoading=  productProvider.productDetails.id !=null;
+       return
+         isLoading?
+         Scaffold(
          extendBody: true,
          resizeToAvoidBottomInset: false,
          body: ExpandableCardPage(
-           page: _page(),
+           page: _page(productProvider.productDetails.image!),
            expandableCard: ExpandableCard(
              backgroundColor: Colors.white,
-             padding: EdgeInsets.only(top: 5, left: 10, right: 10),
-             maxHeight: MediaQuery.of(context).size.height - 280,
+             padding: const EdgeInsets.only(top: 5, left: 10, right: 10),
+             maxHeight: MediaQuery.of(context).size.height - 250,
              minHeight: 350,
              hasRoundedCorners: true,
              hasShadow: true,
              hasHandle: true,
-             price: 100,
+             price: productProvider.productDetails.price!,
              children: <Widget>[
                Row(
                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -133,7 +144,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                      width: 55,
                      child: ElevatedButton(
                        style: ButtonStyle(
-                           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                           shape: MaterialStateProperty.all<
+                               RoundedRectangleBorder>(
                                const RoundedRectangleBorder(
                                    borderRadius: BorderRadius.all(
                                        Radius.circular(20)),
@@ -142,19 +154,29 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                        width: 1)
                                )
                            ),
-                           overlayColor: MaterialStateProperty.all(Colors.grey.shade200),
+                           overlayColor: MaterialStateProperty.all(
+                               Colors.grey.shade200),
                            elevation: MaterialStateProperty.all(5),
-                           shadowColor: MaterialStateProperty.all(Colors.grey.shade400),
-                           backgroundColor: MaterialStateProperty.all(Colors.white),
+                           shadowColor: MaterialStateProperty.all(
+                               Colors.grey.shade400),
+                           backgroundColor: MaterialStateProperty.all(
+                               Colors.white),
                            // backgroundColor: MaterialStateProperty.all(Colors.black),
-                           foregroundColor: MaterialStateProperty.all(Colors.white),
-                           padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
-                           textStyle: MaterialStateProperty.all(const TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 15))
+                           foregroundColor: MaterialStateProperty.all(
+                               Colors.white),
+                           padding: MaterialStateProperty.all(
+                               const EdgeInsets.all(0)),
+                           textStyle: MaterialStateProperty.all(const TextStyle(
+                               color: Colors.white,
+                               fontWeight: FontWeight.w500,
+                               fontSize: 15))
                        ),
-                       onPressed:(){
+                       onPressed: () {
 
                        },
-                       child: ImageIcon(AssetImage("assets/images/share_icon.png",),color: Color(0xff2ab3c6),),
+                       child: ImageIcon(
+                         AssetImage("assets/images/share_icon.png",),
+                         color: Color(0xff2ab3c6),),
                      ),
                    ),
 
@@ -172,16 +194,24 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                        width: 1)
                                )
                            ),
-                           overlayColor: MaterialStateProperty.all(Colors.white30),
+                           overlayColor: MaterialStateProperty.all(
+                               Colors.white30),
                            elevation: MaterialStateProperty.all(0),
-                           shadowColor: MaterialStateProperty.all(Colors.transparent),
-                           backgroundColor: MaterialStateProperty.all(Color(0xff2ab3c6)),
+                           shadowColor: MaterialStateProperty.all(
+                               Colors.transparent),
+                           backgroundColor: MaterialStateProperty.all(
+                               Color(0xff2ab3c6)),
                            // backgroundColor: MaterialStateProperty.all(Colors.black),
-                           foregroundColor: MaterialStateProperty.all(Colors.white),
-                           padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
-                           textStyle: MaterialStateProperty.all(const TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 15))
+                           foregroundColor: MaterialStateProperty.all(
+                               Colors.white),
+                           padding: MaterialStateProperty.all(
+                               const EdgeInsets.all(0)),
+                           textStyle: MaterialStateProperty.all(const TextStyle(
+                               color: Colors.white,
+                               fontWeight: FontWeight.w500,
+                               fontSize: 15))
                        ),
-                       onPressed: (){},
+                       onPressed: () {},
                        child: Padding(
                          padding: const EdgeInsets.all(18.0),
                          child: Text('Order Now'),
@@ -192,12 +222,19 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                  ],
                ),
                const SizedBox(height: 20),
+               const Align(
+                   alignment: Alignment.centerLeft,
+                   child: Text("Description", style: TextStyle(
+                       color: Colors.grey,
+                       fontStyle: FontStyle.italic,
+                       fontSize: 14),)),
                Align(
                    alignment: Alignment.centerLeft,
-                   child: Text("Description",style: TextStyle(color: Colors.grey,fontStyle: FontStyle.italic,fontSize: 14),)),
-               Align(
-                   alignment: Alignment.centerLeft,
-                   child: Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit,sed do eiusmod tempor incididunt ut labore et doloremagna aliqua. Ut enim ad minim veniam, quis nostrudexercitation ullamco laboris nisi ut aliquip ex eacommodo consequat.",style: TextStyle(color: Colors.grey,fontStyle: FontStyle.italic,fontSize: 14),)),
+                   child: Text(
+                     "${productProvider.productDetails.description}",
+                     style: const TextStyle(color: Colors.grey,
+                         fontStyle: FontStyle.normal,
+                         fontSize: 14),)),
                const SizedBox(height: 20),
                Container(
                  decoration: BoxDecoration(
@@ -210,19 +247,20 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                        bottomRight: Radius.circular(10),
                      )
                  ),
-                 child: const Padding(
-                   padding:  EdgeInsets.all(8.0),
+                 child:  Padding(
+                   padding: const EdgeInsets.all(8.0),
                    child: Column(
                      crossAxisAlignment: CrossAxisAlignment.stretch,
 
                      children: [
-                       Text("Reviews (100)",style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
-                        Row(
-                          children: [
-                            Text("4.5",style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500),),
-                            Expanded(child: RatingWidget(rate: 2.5,))
-                          ],
-                        )
+                       Text("Reviews (${productProvider.productDetails.rating!.count!})", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
+                       Row(
+                         children: [
+                           Text("${productProvider.productDetails.rating!.rate!}", style: TextStyle(
+                               fontSize: 32, fontWeight: FontWeight.w500),),
+                           Expanded(child: RatingWidget(rate: productProvider.productDetails.rating!.rate!,))
+                         ],
+                       )
                      ],
                    ),
                  ),
@@ -230,20 +268,20 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                // SizedBox(height: 180),
 
 
-
-
-
-
-
-
-
-
-
              ],
            ),
          ),
-       );
+       )
 
+       :
+
+         Center(
+           child: CircularProgressIndicator(
+
+             semanticsLabel: 'Circular progress indicator',
+           ),
+         );
+     });
 
 
      //   Scaffold(
